@@ -2,6 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
+
 from task.filters import ProductFilter
 from task.models import Product, Category
 from task.serializers import ProductListSerializers, ProductRetrieveSerializers, CategoryModelSerializers, \
@@ -20,7 +21,7 @@ class CategoryRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 class ProductListCreateAPIView(ListCreateAPIView):
     queryset = Product.objects.all()
-    filter_backends = (DjangoFilterBackend,OrderingFilter)
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
     filterset_class = ProductFilter
     ordering_fields = ['price', 'created_at']
 
@@ -37,3 +38,6 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         if self.request.method == 'GET':
             return ProductRetrieveSerializers
         return ProductPostPutPatchSerializers
+
+
+

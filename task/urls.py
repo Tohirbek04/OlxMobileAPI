@@ -7,6 +7,7 @@ urlpatterns = [
     path('category/<int:pk>', CategoryRetrieveUpdateDestroyAPIView.as_view()),
     path('product/', ProductListCreateAPIView.as_view()),
     path('product/<int:pk>', ProductRetrieveUpdateDestroyAPIView.as_view()),
+
 ]
 
 

@@ -1,0 +1,24 @@
+version: '3'
+services:
+  olx_service:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - '8080:8000'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
