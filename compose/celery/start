@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+sleep 3 # waiting redis
+celery -A root worker -l INFO

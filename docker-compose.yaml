@@ -1,11 +1,67 @@
 version: '3'
 services:
-  olx_service:
-    build: .
+  backend_service:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    command: /backend-start
     env_file:
       - .env
     ports:
-      - '8080:8000'
+      - '8000:8000'
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+      - db_service
+
+  db_service:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - 5433:${DB_PORT}
+    volumes:
+      - olx_db:/var/lib/postgresql/data
+
+  redis_service:
+    image: redis:alpine
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - redis_volume:/data
+
+  celery_service:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    command: /celery-start
+    depends_on:
+      - redis_service
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: ./compose/Dockerfile
+    command: /beat-start
+
+#  flower_service:
+#    build:
+#      context: .
+#      dockerfile: ./compose/Dockerfile
+#    command: /flower-start
+#    ports:
+#      - ${FLOWER_PORT}:${FLOWER_PORT}
+
+volumes:
+  static_volume:
+  media_volume:
+  redis_volume:
+  olx_db:
+
+
+
 
 
 

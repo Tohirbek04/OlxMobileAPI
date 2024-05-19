@@ -1,0 +1,7 @@
+
+set -o errexit
+set -o nounset
+
+sleep 3 # waiting redis
+
+celery -A root.celery.app flower --port=${FLOWER_PORT}
